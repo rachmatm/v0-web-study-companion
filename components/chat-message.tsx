@@ -10,10 +10,30 @@ interface ChatMessageProps {
   role: 'user' | 'assistant'
   content: string
   isStreaming?: boolean
+  onSuggestionClick?: (suggestion: string) => void
 }
 
-export function ChatMessage({ role, content, isStreaming = false }: ChatMessageProps) {
+function parseSuggestions(content: string): { mainContent: string; suggestions: string[] } {
+  const suggestionRegex = /\[\[([^\]]+)\]\]/g
+  const suggestions: string[] = []
+  let match
+
+  while ((match = suggestionRegex.exec(content)) !== null) {
+    suggestions.push(match[1].trim())
+  }
+
+  // Remove suggestion brackets from content and clean up extra whitespace
+  const mainContent = content
+    .replace(suggestionRegex, '')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim()
+
+  return { mainContent, suggestions }
+}
+
+export function ChatMessage({ role, content, isStreaming = false, onSuggestionClick }: ChatMessageProps) {
   const isAssistant = role === 'assistant'
+  const { mainContent, suggestions } = isAssistant ? parseSuggestions(content) : { mainContent: content, suggestions: [] }
 
   return (
     <div
@@ -43,6 +63,17 @@ export function ChatMessage({ role, content, isStreaming = false }: ChatMessageP
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
+                // Filter out empty paragraphs that may result from suggestion removal
+                p: ({ children }) => {
+                  const hasContent = children && (
+                    typeof children === 'string' 
+                      ? children.trim().length > 0 
+                      : true
+                  )
+                  return hasContent ? (
+                    <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>
+                  ) : null
+                },
                 // Custom styling for code blocks
                 pre: ({ children }) => (
                   <pre className="bg-secondary/50 rounded-lg p-3 overflow-x-auto text-sm my-2">
@@ -64,10 +95,6 @@ export function ChatMessage({ role, content, isStreaming = false }: ChatMessageP
                     </code>
                   )
                 },
-                // Better paragraph spacing
-                p: ({ children }) => (
-                  <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>
-                ),
                 // List styling
                 ul: ({ children }) => (
                   <ul className="list-disc list-inside mb-2 space-y-1">{children}</ul>
@@ -123,8 +150,23 @@ export function ChatMessage({ role, content, isStreaming = false }: ChatMessageP
                 ),
               }}
             >
-              {content}
+              {mainContent}
             </ReactMarkdown>
+            
+            {/* Clickable suggestion buttons */}
+            {suggestions.length > 0 && !isStreaming && (
+              <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-border/50">
+                {suggestions.map((suggestion, index) => (
+                  <button
+                    key={index}
+                    onClick={() => onSuggestionClick?.(suggestion)}
+                    className="text-xs px-3 py-1.5 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors text-left"
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         ) : (
           <span className="flex gap-1 py-1">

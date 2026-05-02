@@ -255,6 +255,7 @@ export function ChatInterface() {
               index === messages.length - 1 &&
               message.role === 'assistant'
             }
+            onSuggestionClick={sendMessage}
           />
         ))}
         <div ref={messagesEndRef} />
