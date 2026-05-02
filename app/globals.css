@@ -4,75 +4,75 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Mika Study Companion Theme - Warm, inviting lavender-peach palette */
-  --background: oklch(0.98 0.01 280);
-  --foreground: oklch(0.2 0.02 280);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.2 0.02 280);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2 0.02 280);
-  --primary: oklch(0.65 0.15 280);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.92 0.03 280);
-  --secondary-foreground: oklch(0.3 0.02 280);
-  --muted: oklch(0.95 0.02 280);
-  --muted-foreground: oklch(0.5 0.02 280);
-  --accent: oklch(0.75 0.12 30);
-  --accent-foreground: oklch(0.2 0.02 30);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.9 0.02 280);
-  --input: oklch(0.92 0.02 280);
-  --ring: oklch(0.65 0.15 280);
-  --chart-1: oklch(0.65 0.15 280);
-  --chart-2: oklch(0.75 0.12 30);
-  --chart-3: oklch(0.7 0.1 180);
-  --chart-4: oklch(0.8 0.1 60);
+  /* Mika Study Companion - Modern Dark Theme */
+  --background: oklch(0.13 0.01 260);
+  --foreground: oklch(0.95 0.01 260);
+  --card: oklch(0.16 0.01 260);
+  --card-foreground: oklch(0.95 0.01 260);
+  --popover: oklch(0.16 0.01 260);
+  --popover-foreground: oklch(0.95 0.01 260);
+  --primary: oklch(0.7 0.15 160);
+  --primary-foreground: oklch(0.13 0.01 260);
+  --secondary: oklch(0.22 0.02 260);
+  --secondary-foreground: oklch(0.9 0.01 260);
+  --muted: oklch(0.2 0.01 260);
+  --muted-foreground: oklch(0.6 0.01 260);
+  --accent: oklch(0.65 0.12 200);
+  --accent-foreground: oklch(0.13 0.01 260);
+  --destructive: oklch(0.55 0.2 25);
+  --destructive-foreground: oklch(0.95 0.01 260);
+  --border: oklch(0.25 0.01 260);
+  --input: oklch(0.2 0.01 260);
+  --ring: oklch(0.7 0.15 160);
+  --chart-1: oklch(0.7 0.15 160);
+  --chart-2: oklch(0.65 0.12 200);
+  --chart-3: oklch(0.7 0.1 280);
+  --chart-4: oklch(0.75 0.1 60);
   --chart-5: oklch(0.6 0.12 320);
   --radius: 0.75rem;
-  --sidebar: oklch(0.98 0.01 280);
-  --sidebar-foreground: oklch(0.2 0.02 280);
-  --sidebar-primary: oklch(0.65 0.15 280);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.92 0.03 280);
-  --sidebar-accent-foreground: oklch(0.3 0.02 280);
-  --sidebar-border: oklch(0.9 0.02 280);
-  --sidebar-ring: oklch(0.65 0.15 280);
+  --sidebar: oklch(0.14 0.01 260);
+  --sidebar-foreground: oklch(0.95 0.01 260);
+  --sidebar-primary: oklch(0.7 0.15 160);
+  --sidebar-primary-foreground: oklch(0.13 0.01 260);
+  --sidebar-accent: oklch(0.22 0.02 260);
+  --sidebar-accent-foreground: oklch(0.9 0.01 260);
+  --sidebar-border: oklch(0.25 0.01 260);
+  --sidebar-ring: oklch(0.7 0.15 160);
 }
 
 .dark {
-  --background: oklch(0.15 0.02 280);
-  --foreground: oklch(0.95 0.01 280);
-  --card: oklch(0.18 0.02 280);
-  --card-foreground: oklch(0.95 0.01 280);
-  --popover: oklch(0.18 0.02 280);
-  --popover-foreground: oklch(0.95 0.01 280);
-  --primary: oklch(0.75 0.12 280);
-  --primary-foreground: oklch(0.15 0.02 280);
-  --secondary: oklch(0.25 0.03 280);
-  --secondary-foreground: oklch(0.95 0.01 280);
-  --muted: oklch(0.25 0.02 280);
-  --muted-foreground: oklch(0.65 0.02 280);
-  --accent: oklch(0.7 0.1 30);
-  --accent-foreground: oklch(0.15 0.02 30);
-  --destructive: oklch(0.5 0.2 25);
-  --destructive-foreground: oklch(0.95 0.01 280);
-  --border: oklch(0.28 0.02 280);
-  --input: oklch(0.25 0.02 280);
-  --ring: oklch(0.75 0.12 280);
-  --chart-1: oklch(0.75 0.12 280);
-  --chart-2: oklch(0.7 0.1 30);
-  --chart-3: oklch(0.65 0.08 180);
-  --chart-4: oklch(0.75 0.08 60);
-  --chart-5: oklch(0.7 0.1 320);
-  --sidebar: oklch(0.18 0.02 280);
-  --sidebar-foreground: oklch(0.95 0.01 280);
-  --sidebar-primary: oklch(0.75 0.12 280);
-  --sidebar-primary-foreground: oklch(0.15 0.02 280);
-  --sidebar-accent: oklch(0.25 0.03 280);
-  --sidebar-accent-foreground: oklch(0.95 0.01 280);
-  --sidebar-border: oklch(0.28 0.02 280);
-  --sidebar-ring: oklch(0.75 0.12 280);
+  --background: oklch(0.13 0.01 260);
+  --foreground: oklch(0.95 0.01 260);
+  --card: oklch(0.16 0.01 260);
+  --card-foreground: oklch(0.95 0.01 260);
+  --popover: oklch(0.16 0.01 260);
+  --popover-foreground: oklch(0.95 0.01 260);
+  --primary: oklch(0.7 0.15 160);
+  --primary-foreground: oklch(0.13 0.01 260);
+  --secondary: oklch(0.22 0.02 260);
+  --secondary-foreground: oklch(0.9 0.01 260);
+  --muted: oklch(0.2 0.01 260);
+  --muted-foreground: oklch(0.6 0.01 260);
+  --accent: oklch(0.65 0.12 200);
+  --accent-foreground: oklch(0.13 0.01 260);
+  --destructive: oklch(0.55 0.2 25);
+  --destructive-foreground: oklch(0.95 0.01 260);
+  --border: oklch(0.25 0.01 260);
+  --input: oklch(0.2 0.01 260);
+  --ring: oklch(0.7 0.15 160);
+  --chart-1: oklch(0.7 0.15 160);
+  --chart-2: oklch(0.65 0.12 200);
+  --chart-3: oklch(0.7 0.1 280);
+  --chart-4: oklch(0.75 0.1 60);
+  --chart-5: oklch(0.6 0.12 320);
+  --sidebar: oklch(0.14 0.01 260);
+  --sidebar-foreground: oklch(0.95 0.01 260);
+  --sidebar-primary: oklch(0.7 0.15 160);
+  --sidebar-primary-foreground: oklch(0.13 0.01 260);
+  --sidebar-accent: oklch(0.22 0.02 260);
+  --sidebar-accent-foreground: oklch(0.9 0.01 260);
+  --sidebar-border: oklch(0.25 0.01 260);
+  --sidebar-ring: oklch(0.7 0.15 160);
 }
 
 @theme inline {
@@ -127,7 +127,7 @@
 
 /* Mika character glow effect */
 .mika-glow {
-  box-shadow: 0 0 60px oklch(0.75 0.12 280 / 0.3), 0 0 100px oklch(0.75 0.1 30 / 0.15);
+  box-shadow: 0 0 40px oklch(0.7 0.15 160 / 0.25), 0 0 80px oklch(0.65 0.12 200 / 0.1);
 }
 
 /* Typing animation */
@@ -158,4 +158,23 @@
 
 .animate-float {
   animation: float 4s ease-in-out infinite;
+}
+
+/* Prose overrides for dark theme */
+.prose {
+  --tw-prose-body: var(--foreground);
+  --tw-prose-headings: var(--foreground);
+  --tw-prose-links: var(--primary);
+  --tw-prose-bold: var(--foreground);
+  --tw-prose-counters: var(--muted-foreground);
+  --tw-prose-bullets: var(--muted-foreground);
+  --tw-prose-hr: var(--border);
+  --tw-prose-quotes: var(--foreground);
+  --tw-prose-quote-borders: var(--border);
+  --tw-prose-captions: var(--muted-foreground);
+  --tw-prose-code: var(--foreground);
+  --tw-prose-pre-code: var(--foreground);
+  --tw-prose-pre-bg: var(--secondary);
+  --tw-prose-th-borders: var(--border);
+  --tw-prose-td-borders: var(--border);
 }
