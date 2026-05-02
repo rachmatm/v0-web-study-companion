@@ -12,7 +12,6 @@ import {
   Lightbulb,
   GraduationCap,
   ArrowRight,
-  Check,
 } from 'lucide-react'
 
 const FEATURES = [
@@ -61,7 +60,7 @@ export default function HomePage() {
             {/* Left: Content */}
             <div className="space-y-8 text-center lg:text-left">
               <div className="space-y-4">
-                <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-medium">
+                <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-medium border border-primary/20">
                   <Sparkles className="w-4 h-4" />
                   Your AI-powered study buddy
                 </div>
@@ -95,7 +94,7 @@ export default function HomePage() {
                 {SUBJECTS.map((subject) => (
                   <span
                     key={subject}
-                    className="px-3 py-1 bg-secondary text-secondary-foreground text-sm rounded-full"
+                    className="px-3 py-1 bg-secondary text-secondary-foreground text-sm rounded-full border border-border"
                   >
                     {subject}
                   </span>
@@ -107,13 +106,13 @@ export default function HomePage() {
             <div className="flex justify-center lg:justify-end">
               <div className="relative">
                 {/* Decorative background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/10 to-transparent rounded-3xl blur-3xl scale-110" />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/10 to-transparent rounded-3xl blur-3xl scale-110" />
                 
                 {/* Character Card */}
-                <div className="relative bg-card border border-border rounded-3xl p-8 shadow-xl max-w-sm">
+                <div className="relative bg-card border border-border rounded-3xl p-8 shadow-2xl max-w-sm">
                   <div className="flex flex-col items-center text-center space-y-4">
                     <div className="relative">
-                      <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-primary/20 mika-glow animate-float">
+                      <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-primary/30 mika-glow animate-float">
                         <Image
                           src="/mika-avatar.jpg"
                           alt="Mika - Your AI Study Companion"
@@ -133,14 +132,14 @@ export default function HomePage() {
 
                     {/* Sample conversation */}
                     <div className="w-full space-y-3 pt-4 border-t border-border">
-                      <div className="bg-secondary rounded-2xl rounded-bl-sm px-4 py-2 text-sm text-left">
+                      <div className="bg-secondary rounded-2xl rounded-bl-sm px-4 py-2 text-sm text-left border border-border">
                         <p className="text-secondary-foreground">
                           I&apos;m struggling with quadratic equations...
                         </p>
                       </div>
-                      <div className="bg-primary/10 rounded-2xl rounded-br-sm px-4 py-2 text-sm text-left">
+                      <div className="bg-primary/10 rounded-2xl rounded-br-sm px-4 py-2 text-sm text-left border border-primary/20">
                         <p className="text-foreground">
-                          No worries! Let&apos;s break it down step by step. Think of a quadratic like a special recipe with three ingredients... ✨
+                          No worries! Let&apos;s break it down step by step. Think of a quadratic like a special recipe with three ingredients...
                         </p>
                       </div>
                     </div>
@@ -153,7 +152,7 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-16 md:py-24 px-4 bg-secondary/30">
+      <section id="features" className="py-16 md:py-24 px-4 bg-card/30 border-t border-border">
         <div className="max-w-6xl mx-auto">
           <div className="text-center space-y-4 mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground">
@@ -168,15 +167,15 @@ export default function HomePage() {
             {FEATURES.map((feature) => (
               <div
                 key={feature.title}
-                className="bg-card rounded-2xl p-6 border border-border hover:border-primary/30 hover:shadow-lg transition-all duration-300"
+                className="bg-card rounded-2xl p-6 border border-border hover:border-primary/30 hover:shadow-xl transition-all duration-300"
               >
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 border border-primary/20">
                   <feature.icon className="w-6 h-6 text-primary" />
                 </div>
                 <h3 className="text-lg font-semibold text-foreground mb-2">
                   {feature.title}
                 </h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground leading-relaxed">
                   {feature.description}
                 </p>
               </div>
@@ -210,7 +209,7 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border py-8 px-4">
+      <footer className="border-t border-border py-8 px-4 bg-card/30">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 rounded-md overflow-hidden relative">

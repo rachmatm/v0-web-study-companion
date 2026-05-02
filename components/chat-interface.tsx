@@ -1,13 +1,13 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
-import { useChat } from '@ai-sdk/react'
-import { DefaultChatTransport } from 'ai'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { ChatMessage } from './chat-message'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
-import { Send, Sparkles } from 'lucide-react'
+import { Send, Square, Sparkles, Trash2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+
+const STORAGE_KEY = 'mika-chat-history'
 
 const SUGGESTED_TOPICS = [
   { label: 'Explain calculus', prompt: 'Can you explain the basics of calculus to me? I want to understand derivatives.' },
@@ -16,33 +16,180 @@ const SUGGESTED_TOPICS = [
   { label: 'Study tips', prompt: 'What are some effective study techniques for retaining information better?' },
 ]
 
+interface Message {
+  id: string
+  role: 'user' | 'assistant'
+  content: string
+}
+
 export function ChatInterface() {
+  const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [isStreaming, setIsStreaming] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const abortControllerRef = useRef<AbortController | null>(null)
 
-  const { messages, sendMessage, status } = useChat({
-    transport: new DefaultChatTransport({ api: '/api/chat' }),
-  })
+  // Load messages from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY)
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        if (Array.isArray(parsed)) {
+          setMessages(parsed)
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load chat history:', error)
+    }
+  }, [])
 
-  const isLoading = status === 'streaming' || status === 'submitted'
+  // Save messages to localStorage when they change
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(messages))
+    } catch (error) {
+      console.error('Failed to save chat history:', error)
+    }
+  }, [messages])
 
-  const scrollToBottom = () => {
+  const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }
+  }, [])
 
   useEffect(() => {
     scrollToBottom()
-  }, [messages])
+  }, [messages, scrollToBottom])
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!input.trim() || isLoading) return
-    sendMessage({ text: input })
+  const generateId = () => `msg_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`
+
+  const sendMessage = async (content: string) => {
+    if (!content.trim() || isLoading) return
+
+    const userMessage: Message = {
+      id: generateId(),
+      role: 'user',
+      content: content.trim(),
+    }
+
+    const assistantMessage: Message = {
+      id: generateId(),
+      role: 'assistant',
+      content: '',
+    }
+
+    setMessages(prev => [...prev, userMessage, assistantMessage])
     setInput('')
+    setIsLoading(true)
+    setIsStreaming(true)
+
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto'
     }
+
+    // Create abort controller for this request
+    abortControllerRef.current = new AbortController()
+
+    try {
+      const history = [...messages, userMessage].map(m => ({
+        role: m.role,
+        content: m.content,
+      }))
+
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: history }),
+        signal: abortControllerRef.current.signal,
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to get response')
+      }
+
+      const reader = response.body?.getReader()
+      if (!reader) throw new Error('No reader available')
+
+      const decoder = new TextDecoder()
+      let buffer = ''
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        buffer += decoder.decode(value, { stream: true })
+        const lines = buffer.split('\n')
+        buffer = lines.pop() || ''
+
+        for (const line of lines) {
+          const trimmedLine = line.trim()
+          if (!trimmedLine || !trimmedLine.startsWith('data:')) continue
+
+          const data = trimmedLine.slice(5).trim()
+          if (data === '[DONE]') continue
+
+          try {
+            const parsed = JSON.parse(data)
+            if (parsed.content) {
+              setMessages(prev => {
+                const updated = [...prev]
+                const lastMessage = updated[updated.length - 1]
+                if (lastMessage && lastMessage.role === 'assistant') {
+                  lastMessage.content += parsed.content
+                }
+                return updated
+              })
+            }
+          } catch {
+            // Skip invalid JSON
+          }
+        }
+      }
+    } catch (error) {
+      if (error instanceof Error && error.name === 'AbortError') {
+        // User stopped the generation
+        setMessages(prev => {
+          const updated = [...prev]
+          const lastMessage = updated[updated.length - 1]
+          if (lastMessage && lastMessage.role === 'assistant' && !lastMessage.content) {
+            lastMessage.content = '(Generation stopped)'
+          }
+          return updated
+        })
+      } else {
+        console.error('Chat error:', error)
+        setMessages(prev => {
+          const updated = [...prev]
+          const lastMessage = updated[updated.length - 1]
+          if (lastMessage && lastMessage.role === 'assistant') {
+            lastMessage.content = 'Sorry, I encountered an error. Please try again.'
+          }
+          return updated
+        })
+      }
+    } finally {
+      setIsLoading(false)
+      setIsStreaming(false)
+      abortControllerRef.current = null
+    }
+  }
+
+  const stopGeneration = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+    }
+  }
+
+  const clearChat = () => {
+    setMessages([])
+    localStorage.removeItem(STORAGE_KEY)
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    sendMessage(input)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -53,7 +200,7 @@ export function ChatInterface() {
   }
 
   const handleSuggestionClick = (prompt: string) => {
-    sendMessage({ text: prompt })
+    sendMessage(prompt)
   }
 
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -98,25 +245,18 @@ export function ChatInterface() {
           </div>
         )}
 
-        {messages.map((message, index) => {
-          const textContent = message.parts
-            ?.filter((p): p is { type: 'text'; text: string } => p.type === 'text')
-            .map((p) => p.text)
-            .join('') || ''
-
-          return (
-            <ChatMessage
-              key={message.id}
-              role={message.role as 'user' | 'assistant'}
-              content={textContent}
-              isStreaming={
-                isLoading &&
-                index === messages.length - 1 &&
-                message.role === 'assistant'
-              }
-            />
-          )
-        })}
+        {messages.map((message, index) => (
+          <ChatMessage
+            key={message.id}
+            role={message.role}
+            content={message.content}
+            isStreaming={
+              isStreaming &&
+              index === messages.length - 1 &&
+              message.role === 'assistant'
+            }
+          />
+        ))}
         <div ref={messagesEndRef} />
       </div>
 
@@ -138,18 +278,46 @@ export function ChatInterface() {
               rows={1}
             />
           </div>
-          <Button
-            type="submit"
-            size="icon"
-            disabled={!input.trim() || isLoading}
-            className="h-11 w-11 rounded-xl flex-shrink-0"
-          >
-            <Send className="w-4 h-4" />
-            <span className="sr-only">Send message</span>
-          </Button>
+          
+          {isStreaming ? (
+            <Button
+              type="button"
+              size="icon"
+              variant="destructive"
+              onClick={stopGeneration}
+              className="h-11 w-11 rounded-xl flex-shrink-0"
+            >
+              <Square className="w-4 h-4" />
+              <span className="sr-only">Stop generation</span>
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              size="icon"
+              disabled={!input.trim() || isLoading}
+              className="h-11 w-11 rounded-xl flex-shrink-0"
+            >
+              <Send className="w-4 h-4" />
+              <span className="sr-only">Send message</span>
+            </Button>
+          )}
+
+          {messages.length > 0 && !isLoading && (
+            <Button
+              type="button"
+              size="icon"
+              variant="ghost"
+              onClick={clearChat}
+              className="h-11 w-11 rounded-xl flex-shrink-0"
+              title="Clear chat"
+            >
+              <Trash2 className="w-4 h-4" />
+              <span className="sr-only">Clear chat</span>
+            </Button>
+          )}
         </form>
         <p className="text-center text-xs text-muted-foreground mt-2">
-          Mika can make mistakes. Always verify important information.
+          {isStreaming ? 'Mika is typing...' : 'Mika can make mistakes. Always verify important information.'}
         </p>
       </div>
     </div>
