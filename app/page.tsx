@@ -210,19 +210,28 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="border-t border-border py-8 px-4 bg-card/30">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-md overflow-hidden relative">
-              <Image
-                src="/mika-logo.jpg"
-                alt="Mika Logo"
-                fill
-                className="object-cover"
-              />
+        <div className="max-w-6xl mx-auto flex flex-col items-center gap-4 text-sm text-muted-foreground">
+          <div className="flex flex-col md:flex-row items-center justify-between w-full gap-4">
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded-md overflow-hidden relative">
+                <Image
+                  src="/mika-logo.jpg"
+                  alt="Mika Logo"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <span>Mika - AI Study Companion</span>
             </div>
-            <span>Mika - AI Study Companion</span>
+            <p>Making learning more human, one conversation at a time.</p>
           </div>
-          <p>Making learning more human, one conversation at a time.</p>
+          <div className="border-t border-border w-full pt-4 text-center">
+            <p>&copy; {new Date().getFullYear()} Mika AI Study Companion. Created by{' '}
+              <a href="mailto:maulana.rachmat@gmail.com" className="text-primary hover:underline">
+                maulana.rachmat@gmail.com
+              </a>
+            </p>
+          </div>
         </div>
       </footer>
     </div>
