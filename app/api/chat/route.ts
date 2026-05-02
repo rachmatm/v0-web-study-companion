@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
         'X-Title': 'Mika Study Companion',
       },
       body: JSON.stringify({
-        model: 'meta-llama/llama-3-8b-instruct:free',
+        model: 'tencent/hy3-preview:free',
         messages: [
           { role: 'system', content: MIKA_SYSTEM_PROMPT },
           ...messages,
