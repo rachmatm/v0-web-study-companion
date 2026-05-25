@@ -4,48 +4,46 @@ import { Button } from '@/components/ui/button'
 import { Header } from '@/components/header'
 import { MikaCharacter } from '@/components/mika-character'
 import {
-  Sparkles,
-  BookOpen,
   Brain,
-  Heart,
+  BookOpen,
+  CheckCircle,
+  Zap,
   MessageCircle,
   Lightbulb,
-  GraduationCap,
+  Trophy,
   ArrowRight,
 } from 'lucide-react'
 
 const FEATURES = [
   {
     icon: Brain,
-    title: 'Smart Explanations',
-    description: 'Mika breaks down complex topics into digestible pieces, adapting to your learning style.',
+    title: 'Smart Quiz Generation',
+    description: 'AI generates custom intermediate English questions covering grammar, vocabulary, and comprehension.',
   },
   {
-    icon: Heart,
-    title: 'Patient & Supportive',
-    description: 'Never feel judged for asking questions. Mika celebrates your progress and encourages you.',
+    icon: CheckCircle,
+    title: 'Detailed Explanations',
+    description: 'Get clear, personalized feedback for every wrong answer to understand your mistakes.',
   },
   {
-    icon: MessageCircle,
-    title: 'Natural Conversation',
-    description: 'Chat naturally like you would with a friend who happens to be great at every subject.',
+    icon: Zap,
+    title: 'Learn Faster',
+    description: 'Targeted learning identifies weak areas and helps you focus on what matters most.',
   },
   {
     icon: Lightbulb,
-    title: 'Guided Discovery',
-    description: 'Rather than just giving answers, Mika helps you understand the "why" behind concepts.',
+    title: 'Real Understanding',
+    description: 'No just memorization—AI explains the "why" behind grammar rules and vocabulary usage.',
   },
 ]
 
-const SUBJECTS = [
-  'Mathematics',
-  'Physics',
-  'Chemistry',
-  'Biology',
-  'Programming',
-  'Writing',
-  'History',
-  'Languages',
+const LEVELS = [
+  'Grammar Mastery',
+  'Vocabulary Building',
+  'Reading Comprehension',
+  'Writing Skills',
+  'Listening Practice',
+  'Speaking Confidence',
 ]
 
 export default function HomePage() {
@@ -61,23 +59,22 @@ export default function HomePage() {
             <div className="space-y-8 text-center lg:text-left">
               <div className="space-y-4">
                 <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-medium border border-primary/20">
-                  <Sparkles className="w-4 h-4" />
-                  Your AI-powered study buddy
+                  <Zap className="w-4 h-4" />
+                  Master English with AI
                 </div>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight text-balance">
-                  Meet <span className="text-primary">Mika</span>, your personal study companion
+                  Learn <span className="text-primary">Intermediate English</span> with Instant Feedback
                 </h1>
                 <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl mx-auto lg:mx-0 text-pretty">
-                  Learning doesn&apos;t have to be lonely. Mika is here to help you understand any subject, 
-                  answer your questions, and keep you motivated on your educational journey.
+                  Get AI-generated English quizzes with clear explanations for every wrong answer. Perfect for intermediate learners who want to improve faster.
                 </p>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
                 <Button asChild size="lg" className="gap-2 text-base px-6">
                   <Link href="/study">
-                    <GraduationCap className="w-5 h-5" />
-                    Start Learning Now
+                    <Trophy className="w-5 h-5" />
+                    Start Quiz Now
                     <ArrowRight className="w-4 h-4" />
                   </Link>
                 </Button>
@@ -89,14 +86,14 @@ export default function HomePage() {
                 </Button>
               </div>
 
-              {/* Subject tags */}
+              {/* Learning areas */}
               <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
-                {SUBJECTS.map((subject) => (
+                {LEVELS.map((level) => (
                   <span
-                    key={subject}
+                    key={level}
                     className="px-3 py-1 bg-secondary text-secondary-foreground text-sm rounded-full border border-border"
                   >
-                    {subject}
+                    {level}
                   </span>
                 ))}
               </div>
@@ -115,7 +112,7 @@ export default function HomePage() {
                       <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-primary/30 mika-glow animate-float">
                         <Image
                           src="/mika-avatar.jpg"
-                          alt="Mika - Your AI Study Companion"
+                          alt="English Quiz AI Agent"
                           width={128}
                           height={128}
                           className="object-cover"
@@ -126,20 +123,21 @@ export default function HomePage() {
                     </div>
                     
                     <div>
-                      <h3 className="text-xl font-bold text-foreground">Hi, I&apos;m Mika!</h3>
-                      <p className="text-muted-foreground text-sm">Your AI Study Companion</p>
+                      <h3 className="text-xl font-bold text-foreground">English Quiz Agent</h3>
+                      <p className="text-muted-foreground text-sm">AI-Powered Learning</p>
                     </div>
 
-                    {/* Sample conversation */}
+                    {/* Sample quiz preview */}
                     <div className="w-full space-y-3 pt-4 border-t border-border">
                       <div className="bg-secondary rounded-2xl rounded-bl-sm px-4 py-2 text-sm text-left border border-border">
                         <p className="text-secondary-foreground">
-                          I&apos;m struggling with quadratic equations...
+                          <strong>Q:</strong> Which is correct?
                         </p>
+                        <p className="text-xs text-muted-foreground mt-1">A) He go to school B) He goes to school</p>
                       </div>
                       <div className="bg-primary/10 rounded-2xl rounded-br-sm px-4 py-2 text-sm text-left border border-primary/20">
                         <p className="text-foreground">
-                          No worries! Let&apos;s break it down step by step. Think of a quadratic like a special recipe with three ingredients...
+                          <strong>Correct!</strong> "He goes to school" uses the right verb form for third person singular.
                         </p>
                       </div>
                     </div>
@@ -156,10 +154,10 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center space-y-4 mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-              Why study with Mika?
+              Why learn English with AI quizzes?
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Mika isn&apos;t just another AI chatbot. She&apos;s designed specifically to help you learn and grow.
+              Our AI-powered quiz system is designed specifically for intermediate learners who want real improvement.
             </p>
           </div>
 
@@ -192,15 +190,15 @@ export default function HomePage() {
               <MikaCharacter size="lg" />
             </div>
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
-              Ready to make studying more enjoyable?
+              Ready to master intermediate English?
             </h2>
             <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-              Join thousands of students who&apos;ve discovered the joy of learning with a companion who truly cares about your success.
+              Take structured quizzes, get instant feedback, and truly understand your mistakes. Start learning smarter today.
             </p>
             <Button asChild size="lg" className="gap-2 text-base px-8">
               <Link href="/study">
-                <Sparkles className="w-5 h-5" />
-                Chat with Mika
+                <Trophy className="w-5 h-5" />
+                Start Your First Quiz
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </Button>
@@ -216,17 +214,17 @@ export default function HomePage() {
               <div className="w-6 h-6 rounded-md overflow-hidden relative">
                 <Image
                   src="/mika-logo.jpg"
-                  alt="Mika Logo"
+                  alt="Logo"
                   fill
                   className="object-cover"
                 />
               </div>
-              <span>Mika - AI Study Companion</span>
+              <span>AI English Quiz Agent</span>
             </div>
-            <p>Making learning more human, one conversation at a time.</p>
+            <p>Master intermediate English with AI-powered quizzes and clear explanations.</p>
           </div>
           <div className="border-t border-border w-full pt-4 text-center">
-            <p>&copy; {new Date().getFullYear()} Mika AI Study Companion. Created by{' '}
+            <p>&copy; {new Date().getFullYear()} AI English Quiz. Created by{' '}
               <a href="mailto:maulana.rachmat@gmail.com" className="text-primary hover:underline">
                 maulana.rachmat@gmail.com
               </a>
