@@ -14,10 +14,10 @@ const _geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Mika - Your AI Study Companion',
-  description: 'Meet Mika, your friendly AI tutor who makes learning fun and personalized. Get help with any subject, anytime.',
+  title: 'AI English Quiz - Intermediate Level Lessons',
+  description: 'Master intermediate English with AI-powered quizzes and clear explanations. Get detailed feedback on wrong answers to improve faster.',
   generator: 'v0.app',
-  keywords: ['AI tutor', 'study companion', 'learning', 'education', 'homework help'],
+  keywords: ['English quiz', 'intermediate English', 'English learning', 'AI tutor', 'language learning', 'English lessons'],
   icons: {
     icon: [
       {
