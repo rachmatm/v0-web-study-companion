@@ -45,24 +45,22 @@ export async function POST(req: NextRequest) {
   try {
     const { messages }: { messages: Message[] } = await req.json()
 
-    const apiKey = process.env.OPENROUTER_API_KEY
+    const apiKey = process.env.CEREBRAS_API_KEY
     if (!apiKey) {
       return NextResponse.json(
-        { error: 'OPENROUTER_API_KEY is not configured' },
+        { error: 'CEREBRAS_API_KEY is not configured' },
         { status: 500 }
       )
     }
 
-    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    const response = await fetch('https://api.cerebras.ai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
-        'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
-        'X-Title': 'Mika Study Companion',
       },
       body: JSON.stringify({
-        model: 'google/gemini-2.0-flash-001',
+        model: 'llama-3.1-70b',
         messages: [
           { role: 'system', content: MIKA_SYSTEM_PROMPT },
           ...messages,
@@ -76,7 +74,7 @@ export async function POST(req: NextRequest) {
 
     if (!response.ok) {
       const errorText = await response.text()
-      console.error('OpenRouter API error:', errorText)
+      console.error('Cerebras API error:', errorText)
       return NextResponse.json(
         { error: 'Failed to get response from AI' },
         { status: response.status }
