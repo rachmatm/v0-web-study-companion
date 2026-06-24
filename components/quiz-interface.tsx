@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
-import { Send, Square, Trophy, Trash2, Volume2 } from 'lucide-react'
+import { Send, Square, Trophy, Trash2, Volume2, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const STORAGE_KEY = 'quiz-session'
@@ -39,6 +39,7 @@ export function QuizInterface() {
   const [currentQuestion, setCurrentQuestion] = useState<QuizQuestion | null>(null)
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null)
   const [answered, setAnswered] = useState(false)
+  const [loadingNextQuestion, setLoadingNextQuestion] = useState(false)
   
   // Quiz results
   const [answers, setAnswers] = useState<UserAnswer[]>([])
@@ -181,10 +182,12 @@ export function QuizInterface() {
     }
   }
 
-  const handleNextQuestion = () => {
+  const handleNextQuestion = async () => {
     if (currentQuestionIndex + 1 < quizLength) {
+      setLoadingNextQuestion(true)
       setCurrentQuestionIndex(prev => prev + 1)
-      generateNextQuestion(currentQuestionIndex + 1)
+      await generateNextQuestion(currentQuestionIndex + 1)
+      setLoadingNextQuestion(false)
     } else {
       setQuizComplete(true)
     }
@@ -416,10 +419,14 @@ export function QuizInterface() {
             {answered && (
               <Button
                 onClick={handleNextQuestion}
+                disabled={loadingNextQuestion}
                 size="lg"
                 className="w-full gap-2"
               >
-                {currentQuestionIndex + 1 === quizLength ? 'See Results' : 'Next Question'}
+                {loadingNextQuestion && <Loader2 className="w-5 h-5 animate-spin" />}
+                {loadingNextQuestion 
+                  ? 'Loading...' 
+                  : currentQuestionIndex + 1 === quizLength ? 'See Results' : 'Next Question'}
               </Button>
             )}
           </div>
