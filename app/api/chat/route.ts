@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'llama-3.1-70b',
+        model: 'gpt-oss-120b',
         messages: [
           { role: 'system', content: MIKA_SYSTEM_PROMPT },
           ...messages,
