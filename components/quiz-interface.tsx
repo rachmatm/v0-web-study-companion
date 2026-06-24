@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Send, Square, Trophy, Trash2, Volume2, Loader2 } from 'lucide-react'
+import { Turnstile } from '@marsidev/react-turnstile'
 import { cn } from '@/lib/utils'
 
 const STORAGE_KEY = 'quiz-session'
@@ -33,6 +34,8 @@ export function QuizInterface() {
   const [difficulty, setDifficulty] = useState<'beginner' | 'intermediate' | 'advanced'>('intermediate')
   const [quizLength, setQuizLength] = useState<5 | 10 | 20>(5)
   const [quizStarted, setQuizStarted] = useState(false)
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  const [verifyingTurnstile, setVerifyingTurnstile] = useState(false)
   
   // Current question state
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
@@ -66,13 +69,36 @@ export function QuizInterface() {
   const generateId = () => `msg_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`
 
   const startQuiz = async () => {
-    setQuizStarted(true)
-    setCurrentQuestionIndex(0)
-    setAnswers([])
-    setMessages([])
+    if (!turnstileToken) {
+      console.error('[v0] Turnstile verification failed')
+      return
+    }
     
-    // Generate first question
-    await generateNextQuestion(0)
+    setVerifyingTurnstile(true)
+    
+    try {
+      const verifyResponse = await fetch('/api/verify-turnstile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: turnstileToken })
+      })
+
+      if (!verifyResponse.ok) {
+        console.error('[v0] Turnstile verification failed on server')
+        setVerifyingTurnstile(false)
+        return
+      }
+
+      setQuizStarted(true)
+      setCurrentQuestionIndex(0)
+      setAnswers([])
+      setMessages([])
+      
+      // Generate first question
+      await generateNextQuestion(0)
+    } finally {
+      setVerifyingTurnstile(false)
+    }
   }
 
   const generateNextQuestion = async (index: number) => {
@@ -257,14 +283,24 @@ export function QuizInterface() {
               </div>
             </div>
 
+            {/* Turnstile Bot Protection */}
+            <div className="flex justify-center p-4 bg-card border border-border rounded-xl">
+              <Turnstile
+                siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || ''}
+                onSuccess={(token) => setTurnstileToken(token)}
+                onError={() => setTurnstileToken(null)}
+              />
+            </div>
+
             <Button
               size="lg"
               onClick={startQuiz}
-              disabled={isLoading}
+              disabled={isLoading || verifyingTurnstile || !turnstileToken}
               className="w-full gap-2 text-base"
             >
+              {verifyingTurnstile && <Loader2 className="w-5 h-5 animate-spin" />}
               <Trophy className="w-5 h-5" />
-              Start Quiz
+              {verifyingTurnstile ? 'Verifying...' : 'Start Quiz'}
             </Button>
           </div>
         </div>
