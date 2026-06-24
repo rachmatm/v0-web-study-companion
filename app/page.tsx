@@ -17,33 +17,33 @@ import {
 const FEATURES = [
   {
     icon: Brain,
-    title: 'Smart Quiz Generation',
-    description: 'AI generates custom intermediate English questions covering grammar, vocabulary, and comprehension.',
+    title: 'AI-Powered Grammar Quizzes',
+    description: 'Intelligent questions that test your understanding of English grammar rules, tenses, and sentence structure.',
   },
   {
     icon: CheckCircle,
-    title: 'Detailed Explanations',
-    description: 'Get clear, personalized feedback for every wrong answer to understand your mistakes.',
+    title: 'Instant Feedback & Explanations',
+    description: 'Every answer comes with detailed explanations of grammar concepts, so you truly understand why something is correct.',
   },
   {
     icon: Zap,
-    title: 'Learn Faster',
-    description: 'Targeted learning identifies weak areas and helps you focus on what matters most.',
+    title: 'Learn Grammar Efficiently',
+    description: 'Focus on your weak areas with targeted grammar exercises that adapt to your learning pace.',
   },
   {
     icon: Lightbulb,
-    title: 'Real Understanding',
-    description: 'No just memorization—AI explains the "why" behind grammar rules and vocabulary usage.',
+    title: 'Master English Grammar',
+    description: 'From verb tenses to prepositions—build a solid foundation in English grammar with comprehensive, interactive lessons.',
   },
 ]
 
 const LEVELS = [
-  'Grammar Mastery',
-  'Vocabulary Building',
-  'Reading Comprehension',
-  'Writing Skills',
-  'Listening Practice',
-  'Speaking Confidence',
+  'Verb Tenses',
+  'Prepositions',
+  'Phrasal Verbs',
+  'Subject-Verb Agreement',
+  'Article Usage',
+  'Sentence Structure',
 ]
 
 export default function HomePage() {
@@ -60,13 +60,13 @@ export default function HomePage() {
               <div className="space-y-4">
                 <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-medium border border-primary/20">
                   <Zap className="w-4 h-4" />
-                  Master English with AI
+                  Master English Grammar
                 </div>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight text-balance">
-                  Learn <span className="text-primary">Intermediate English</span> with Instant Feedback
+                  Perfect Your <span className="text-primary">English Grammar</span> with AI Quizzes
                 </h1>
                 <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl mx-auto lg:mx-0 text-pretty">
-                  Get AI-generated English quizzes with clear explanations for every wrong answer. Perfect for intermediate learners who want to improve faster.
+                  Take interactive grammar quizzes powered by AI. Get instant feedback, detailed explanations, and master English grammar rules through practice.
                 </p>
               </div>
 
@@ -123,21 +123,21 @@ export default function HomePage() {
                     </div>
                     
                     <div>
-                      <h3 className="text-xl font-bold text-foreground">English Quiz Agent</h3>
-                      <p className="text-muted-foreground text-sm">AI-Powered Learning</p>
+                      <h3 className="text-xl font-bold text-foreground">Grammar Quiz Master</h3>
+                      <p className="text-muted-foreground text-sm">AI-Powered Grammar Learning</p>
                     </div>
 
                     {/* Sample quiz preview */}
                     <div className="w-full space-y-3 pt-4 border-t border-border">
                       <div className="bg-secondary rounded-2xl rounded-bl-sm px-4 py-2 text-sm text-left border border-border">
                         <p className="text-secondary-foreground">
-                          <strong>Q:</strong> Which is correct?
+                          <strong>Q:</strong> Fill in the blank with the correct preposition.
                         </p>
-                        <p className="text-xs text-muted-foreground mt-1">A) He go to school B) He goes to school</p>
+                        <p className="text-xs text-muted-foreground mt-1">I am interested __ learning grammar.</p>
                       </div>
                       <div className="bg-primary/10 rounded-2xl rounded-br-sm px-4 py-2 text-sm text-left border border-primary/20">
                         <p className="text-foreground">
-                          <strong>Correct!</strong> "He goes to school" uses the right verb form for third person singular.
+                          <strong>Correct!</strong> "in" is used with "interested"—the full phrase is "interested in."
                         </p>
                       </div>
                     </div>
@@ -154,10 +154,10 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center space-y-4 mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-              Why learn English with AI quizzes?
+              Why master grammar with our AI quizzes?
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Our AI-powered quiz system is designed specifically for intermediate learners who want real improvement.
+              Build a strong foundation in English grammar with interactive quizzes, real-time feedback, and comprehensive explanations.
             </p>
           </div>
 
@@ -190,10 +190,10 @@ export default function HomePage() {
               <MikaCharacter size="lg" />
             </div>
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
-              Ready to master intermediate English?
+              Ready to master English grammar?
             </h2>
             <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-              Take structured quizzes, get instant feedback, and truly understand your mistakes. Start learning smarter today.
+              Start taking our grammar quizzes today and build confidence with accurate, detailed explanations for every concept.
             </p>
             <Button asChild size="lg" className="gap-2 text-base px-8">
               <Link href="/study">
@@ -219,12 +219,12 @@ export default function HomePage() {
                   className="object-cover"
                 />
               </div>
-              <span>AI English Quiz Agent</span>
+              <span>English Grammar Quiz</span>
             </div>
-            <p>Master intermediate English with AI-powered quizzes and clear explanations.</p>
+            <p>Master English grammar with AI-powered quizzes and detailed explanations.</p>
           </div>
           <div className="border-t border-border w-full pt-4 text-center">
-            <p>&copy; {new Date().getFullYear()} AI English Quiz. Created by{' '}
+            <p>&copy; {new Date().getFullYear()} English Grammar Quiz. Created by{' '}
               <a href="mailto:maulana.rachmat@gmail.com" className="text-primary hover:underline">
                 maulana.rachmat@gmail.com
               </a>
